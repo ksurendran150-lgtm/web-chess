@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Chess</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="menu-state">
+    
+    <div id="world-background">
+        <img id="bg-gif" src="moon.gif" alt="Midnight Lake">
+    </div>
+
+    <div id="main-menu">
+        <h1 class="zen-text title">CHESS</h1>
+        
+        <button id="btn-vs-ai" class="zen-btn">> VS COMPUTER</button>
+        
+        <div class="join-section">
+            <input type="text" id="input-room-id" class="zen-input" placeholder="ROOM NAME">
+            <div style="display: flex; gap: 20px; justify-content: center; margin-top: 20px;">
+                <button id="btn-create-room" class="zen-btn">CREATE</button>
+                <button id="btn-join-room" class="zen-btn">JOIN</button>
+            </div>
+        </div>
+        <p id="menu-status"></p>
+    </div>
+
+    <div id="game-ui" class="hidden">
+        <div class="game-container">
+            <div id="top-captured" class="captured-tray"></div>
+            
+            <div class="board-wrapper">
+                <div id="chessboard"></div>
+                <svg id="arrow-canvas" viewBox="0 0 640 640">
+                    <defs>
+                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="rgba(255, 0, 0, 0.8)" />
+                        </marker>
+                    </defs>
+                    <line id="best-move-arrow" x1="0" y1="0" x2="0" y2="0" stroke="rgba(255, 0, 0, 0.8)" stroke-width="6" marker-end="url(#arrowhead)" style="display:none;" />
+                </svg>
+            </div>
+
+            <div id="bottom-captured" class="captured-tray"></div>
+            
+            <div id="chat-container" style="display: none;">
+                <div id="chat-messages"></div>
+                <div id="chat-input-wrapper">
+                    <input type="text" id="chat-input" placeholder="SEND MESSAGE...">
+                    <button id="btn-send-chat">></button>
+                </div>
+            </div>
+            
+            <div id="stockfish-panel" class="hidden">
+                <h3>🤖 Stockfish Assist</h3>
+                <p id="engine-best-move">Best Move: Thinking...</p>
+                <p>Mode: <span id="game-mode-display"></span></p>
+                <p>Status: <span id="player-color-display"></span></p>
+                <p id="room-info-row">Room: <span id="current-room-display"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

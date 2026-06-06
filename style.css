@@ -1,0 +1,186 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+
+/* BASE BODY (Default for Game) */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #312e2b; /* Classic dark gray */
+    color: white;
+    margin: 0;
+}
+
+/* --- DYNAMIC BACKGROUND SWITCHER --- */
+#world-background { display: none; } /* Hidden by default */
+body.menu-state { background-color: #050510; }
+body.menu-state #world-background { display: block; } /* Only shows when menu is active */
+
+/* --- MIDNIGHT LAKE BACKGROUND --- */
+#world-background {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background-color: #050510; 
+    z-index: -1; 
+}
+#bg-gif {
+    width: 100%; height: 100%; object-fit: cover; 
+    image-rendering: pixelated; opacity: 0.85; 
+}
+
+/* --- ZEN MINIMALIST MENU --- */
+#main-menu {
+    text-align: center;
+    max-width: 90vw;
+    width: 500px;
+    font-family: 'Press Start 2P', cursive;
+    z-index: 10;
+}
+.title { color: #ffffff; text-shadow: 0 0 15px rgba(255, 255, 255, 0.6); margin-bottom: 60px; font-size: 28px; letter-spacing: 2px; }
+.zen-btn { font-family: 'Press Start 2P', cursive; background-color: transparent; color: #7b92a8; border: none; padding: 15px; font-size: 14px; width: 100%; cursor: pointer; transition: all 0.2s ease-in-out; outline: none; }
+.zen-btn:hover { color: #ffffff; text-shadow: 0 0 12px rgba(255, 255, 255, 0.9); transform: scale(1.1); }
+.join-section { margin-top: 40px; }
+.zen-input { font-family: 'Press Start 2P', cursive; background-color: transparent; color: #ffffff; border: none; border-bottom: 2px solid #7b92a8; padding: 10px; font-size: 12px; width: 70%; text-align: center; outline: none; transition: border-color 0.3s; }
+.zen-input:focus { border-bottom: 2px solid #ffffff; }
+.zen-input::placeholder { color: #4a5c6e; }
+#menu-status { font-family: 'Press Start 2P', cursive; color: #ff6b6b; margin-top: 25px; font-size: 10px; }
+
+/* --- GAME UI (Responsive) --- */
+.game-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+}
+.board-wrapper {
+    width: 95vw;          
+    max-width: 640px;     
+    aspect-ratio: 1 / 1;  
+    position: relative;
+    margin: 0 auto;       
+}
+
+#chessboard { display: grid; grid-template-columns: repeat(8, 1fr); grid-template-rows: repeat(8, 1fr); width: 100%; height: 100%; border: 4px solid #45423f; border-radius: 4px; }
+#arrow-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; }
+
+/* --- CHESS SQUARES & PIECES --- */
+.square { display: flex; justify-content: center; align-items: center; cursor: pointer; position: relative; user-select: none; }
+.light { background-color: #ebecd0; }
+.dark { background-color: #739552; }
+.chess-piece { width: 80%; height: 80%; object-fit: contain; pointer-events: none; }
+
+.highlight-last-move { background-color: rgba(255, 255, 51, 0.5) !important; }
+.highlight-legal-move::after { content: ''; position: absolute; width: 25%; height: 25%; background-color: rgba(0, 0, 0, 0.15); border-radius: 50%; }
+
+/* Captured Pieces */
+.captured-tray { width: 100%; max-width: 640px; height: 40px; display: flex; align-items: center; gap: 5px; margin: 5px 0; }
+.captured-tray img { width: 30px; height: 30px; object-fit: contain; }
+
+/* Engine Panel */
+#stockfish-panel { margin-top: 20px; padding: 15px; background-color: #262421; border-radius: 8px; border-left: 4px solid #739552; width: 100%; max-width: 640px; }
+.hidden { display: none !important; }
+
+/* --- KING IN CHECK ANIMATION --- */
+.in-check {
+    background-color: rgba(220, 38, 38, 0.6) !important;
+    animation: pulse-check 1.5s infinite;
+    border-radius: 4px;
+}
+
+@keyframes pulse-check {
+    0% { box-shadow: inset 0 0 15px rgba(220, 38, 38, 0.8); }
+    50% { box-shadow: inset 0 0 40px rgba(220, 38, 38, 1); }
+    100% { box-shadow: inset 0 0 15px rgba(220, 38, 38, 0.8); }
+}
+
+/* --- ZEN CHESS CHAT --- */
+/* --- GENSHIN STYLE CHAT OVERLAY --- */
+#chat-container {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 320px;
+    /* Translucent dark teal/grey background */
+    background-color: rgba(28, 36, 43, 0.7); 
+    border-radius: 8px;
+    padding: 12px;
+    display: flex; 
+    flex-direction: column;
+    z-index: 100; /* Forces it to float on top of everything */
+    backdrop-filter: blur(5px); /* Creates the frosted glass effect */
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#chat-messages {
+    height: 150px; 
+    overflow-y: auto; 
+    font-size: 15px; /* Much larger, readable text */
+    margin-bottom: 10px; 
+    /* Clean, modern font instead of the retro pixel font */
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 8px;
+    text-align: left;
+    scrollbar-width: none; /* Hides scrollbar on Firefox */
+}
+
+/* Hides scrollbar on Chrome/Safari for a cleaner look */
+#chat-messages::-webkit-scrollbar { display: none; } 
+
+.chat-msg { 
+    color: #88a3b0; 
+    line-height: 1.4; 
+    /* Classic drop-shadow to make text pop against the background */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8); 
+}
+.chat-msg span { color: #ffffff; }
+
+#chat-input-wrapper { 
+    display: flex; 
+    gap: 10px; 
+    background: rgba(0, 0, 0, 0.4);
+    padding: 8px 12px;
+    border-radius: 20px;
+}
+
+#chat-input {
+    flex-grow: 1; 
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: transparent; 
+    border: none; 
+    color: white; 
+    outline: none; 
+    font-size: 14px; 
+}
+#chat-input::placeholder { color: rgba(255, 255, 255, 0.5); }
+
+#btn-send-chat { 
+    background: transparent; 
+    color: #ffffff; 
+    border: none; 
+    font-weight: bold;
+    font-size: 16px; 
+    cursor: pointer; 
+    transition: transform 0.2s;
+}
+#btn-send-chat:hover { transform: scale(1.1); }
+
+/* --- MOBILE RESPONSIVENESS FOR CHAT --- */
+@media (max-width: 768px) {
+    #chat-container {
+        bottom: 10px;
+        left: 10px;
+        right: 10px;
+        width: auto; /* Stretches across the phone screen */
+        padding: 10px;
+    }
+    #chat-messages {
+        height: 100px; /* Shorter so it doesn't block the chessboard on phones */
+        font-size: 14px;
+    }
+}
