@@ -1,4 +1,4 @@
-# Zen Chess: Real-Time Multiplayer & AI ♟️
+# Zen Chess: Real-Time Multiplayer & AI 
 
 A fully responsive, browser-based chess application featuring real-time multiplayer synchronization, a built-in Stockfish AI engine, and a custom user interface with a chat overlay. The core of this project is the hidden **Ai mode**,live-analysis overlay designed for training and having fun with friends. By pressing the `~` key during a live multiplayer match, a Web Worker running the Stockfish 10 AI silently spins up in the background, calculates the optimal counter-move to your opponent, and draws a glowing SVG arrow on your screen, allowing you to seamlessly play at a Grandmaster level without breaking the UI.
 
